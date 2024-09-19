@@ -7,7 +7,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 
-const API_URL = "http://localhost:5000/api"; 
+const API_URL = "http://localhost:5000/api";
 
 export default function Home() {
   const [tasks, setTasks] = useState<{ id: string; task: string; status: boolean }[]>([]);
@@ -25,7 +25,7 @@ export default function Home() {
       }
       const fetchedTasks = await response.json();
       setTasks(fetchedTasks);
-    } catch (err) {
+    } catch {
       setError("Failed to load tasks. Please try again.");
     } finally {
       setLoading(false);
@@ -36,7 +36,6 @@ export default function Home() {
     fetchTasks();
   }, []);
 
-  
   const handleAddTask = async (newTask: string) => {
     try {
       const response = await fetch(`${API_URL}/tasks`, {
@@ -49,13 +48,12 @@ export default function Home() {
       if (!response.ok) {
         throw new Error("Failed to create task");
       }
-      await fetchTasks(); 
-    } catch (err) {
+      await fetchTasks();
+    } catch {
       setError("Failed to create task. Please try again.");
     }
   };
 
-  
   const handleDeleteTask = async (id: string) => {
     try {
       const response = await fetch(`${API_URL}/tasks/${id}`, {
@@ -64,19 +62,17 @@ export default function Home() {
       if (!response.ok) {
         throw new Error("Failed to delete task");
       }
-      await fetchTasks(); 
-    } catch (err) {
+      await fetchTasks();
+    } catch {
       setError("Failed to delete task. Please try again.");
     }
   };
 
-  
   const handleEditTask = (id: string, task: string) => {
     setEditingTaskId(id);
-    setEditedTask(task); 
+    setEditedTask(task);
   };
 
-  
   const handleUpdateTask = async (id: string) => {
     try {
       const response = await fetch(`${API_URL}/tasks/${id}`, {
@@ -89,15 +85,14 @@ export default function Home() {
       if (!response.ok) {
         throw new Error("Failed to update task");
       }
-      await fetchTasks(); 
-      setEditingTaskId(null); 
-      setEditedTask(""); 
-    } catch (err) {
+      await fetchTasks();
+      setEditingTaskId(null);
+      setEditedTask("");
+    } catch {
       setError("Failed to update task. Please try again.");
     }
   };
 
-  
   const handleCancelEdit = () => {
     setEditingTaskId(null);
     setEditedTask("");
@@ -105,18 +100,15 @@ export default function Home() {
 
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start ">
-       
+      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
         <Card className="w-full bg-black text-white">
           <CardContent>
             <h1 className="text-3xl font-bold">To-Do List</h1>
           </CardContent>
         </Card>
 
-        
         <TaskForm onSubmit={handleAddTask} />
 
-        
         {error && (
           <Alert variant="destructive">
             <AlertTitle>Error</AlertTitle>
@@ -124,10 +116,8 @@ export default function Home() {
           </Alert>
         )}
 
-        
         <Separator className="my-4 w-full" />
 
-        
         {loading ? (
           <p>Loading tasks...</p>
         ) : (
